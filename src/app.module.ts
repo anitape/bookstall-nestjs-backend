@@ -12,13 +12,13 @@ import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   imports: [
-    //подключение и настройка конфиг модуля из пакета @nestjs/config
-    //в файле configuration указаны переменные окружения https://docs.nestjs.com/techniques/configuration
+    //connecting and configuring the ConfigModule from the @nestjs/config package
+    //environment variables are defined in the configuration file https://docs.nestjs.com/techniques/configuration
     ConfigModule.forRoot({
       load: [configuration],
     }),
 
-    //подключение и настройка базы данных
+    //connecting and configuring the database
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],

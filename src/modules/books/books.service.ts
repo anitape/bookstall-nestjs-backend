@@ -10,24 +10,27 @@ import { User } from '../users/user.entity';
 export class BooksService {
     constructor(private readonly booksRepository: BooksRepository, private userRepo: UsersRepository) { }
 
-    // Получить список всех книг
+    // Get a list of all books
     async getAllBooks(): Promise<Book[]> {
         return this.booksRepository.findAll();
     }
 
-    // Получить книгу по ID
+    // Get a book by ID
     async getBookById(id: number, userId: number | null): Promise<Book> {
         let userPromise: Promise<User> | null = null;
 
+        // If user is authenticated, load user data for age checking
         if (userId !== null) {
             userPromise = this.userRepo.findByIdOrNotFoundFail(userId);
         }
 
         const bookPromise = this.booksRepository.findOneOrNotFoundFail(id);
 
+        // Await both user and book queries in parallel for efficiency
         const [user, book] = await Promise.all([userPromise, bookPromise]);
         
-        
+        // Check if the book has an age restriction of 18 or above
+        // If yes, and user is unauthorized or authorized user is not old enough --> throw ForbiddenException
         if (book.ageRestriction >= 18) {
             if (!user || user.age < 18) {
                 throw new ForbiddenException('Age restriction');
@@ -37,7 +40,7 @@ export class BooksService {
         return book;
     }
 
-    // Создать новую книгу
+    // Create a new book
     async createBook(dto: CreateBookDto, userId: number): Promise<void> {
         const user = await this.userRepo.findByIdOrNotFoundFail(userId);
 
@@ -54,10 +57,12 @@ export class BooksService {
         await this.booksRepository.save(book);
     }
 
+    // Delete a book
     async deleteBook(id: number, userId: number): Promise<void> {
 
         const book = await this.booksRepository.findOneOrNotFoundFail(id);
 
+        // Check if the user owns the book; else forbid deletion
         if (book.ownerId !== userId) {
             throw new ForbiddenException('Cannot delete the book');
         }

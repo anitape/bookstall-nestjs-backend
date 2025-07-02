@@ -1,28 +1,69 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# Bookstall Backend
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Bookstall is a backend application for managing an online book library. It provides a robust and modular structure, where users can browse, add, and manage books. The system includes secure authentication and authorization using JWT and age-restriction checks to ensure compliance with content policies. Additionally, the application features protected endpoints, optional authentication for public access, role-based access control and clean architecture that supports scalability and maintainability.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## 🛠 Tech Stack
 
-## Description
+| Technology    | Description |
+| --------------- | ---------------------------------- |
+| NestJS          | Main application framework         |
+| TypeScript      | Primary programming language       |
+| Passport.js     | Authentication middleware          |
+| JWT             | Token-based authentication system  |
+| TypeORM         | ORM for database access            |
+| PostgreSQL      | Relational database                |
+| class-validator | Input validation decorators        |
+| Bcrypt          | Password hashing                   |
+
+
+## 🚀 Features
+
+**User Authentication & Authorization**
+
+- JWT-based authentication
+- Login & registration with hashed passwords
+- Optional authentication for public endpoints
+
+**Role-Based Access Control**
+
+- Only book owners can delete their books
+
+**Book Management**
+
+- CRUD operations for books
+- Each book can include an age restriction (e.g. 18+)
+- Only authorized users can access or modify restricted content
+
+**Age Restriction Logic**
+
+- Unauthenticated users or users under 18 cannot access adult-only books
+- Optional authentication guard (`JwtOptionalGuard`) supports guest access with limited rights
+
+**Guards and Middleware**
+
+- Custom `JwtOptionalGuard` extends JWT strategy to allow anonymous access when appropriate
+- Age-based access enforcement at the service level
+
+**Validation & Error Handling**
+
+- Centralized exception filters
+- Input validation via class-validator and pipes
+
+**Clean Architecture**
+
+- Modular structure (e.g., `auth`, `books`, `users` modules)
+- Clear separation of concerns between controllers, services, and repositories
+
+
+## ✅ Example Use Cases
+
+- Guests can browse books that not have age restriction 18+
+- Logged-in users can add and manage their own books
+- Age-restricted books are only accessible by adults
+
+
+
+# NestJS
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
@@ -58,16 +99,13 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
-## Support
+<p align="center">
+  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
+</p>
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
+[circleci-url]: https://circleci.com/gh/nestjs/nest
 
-## Stay in touch
+  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
+    <p align="center">
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).

@@ -7,17 +7,17 @@ import { ValidationPipe } from '@nestjs/common';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  //подключение глобального валидационного pipe https://docs.nestjs.com/techniques/validation
+  //enabling a global validation pipe https://docs.nestjs.com/techniques/validation
   app.useGlobalPipes(new ValidationPipe());
 
-  //разрешены запросы с любых доменов
+  //requests from any domain are allowed
   app.enableCors({
-    origin: '*', // Разрешает запросы с любых доменов
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // Разрешенные методы
-    credentials: true, // Включает передачу cookies
+    origin: '*', // allows requests from any domain
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // allowed HTTP methods
+    credentials: true, // enables sending cookies
   });
 
-  //получение конфиг сервиса https://docs.nestjs.com/techniques/configuration#using-in-the-maints
+  //accessing the ConfigService https://docs.nestjs.com/techniques/configuration#using-in-the-maints
   const configService = app.get(ConfigService<ConfigurationType>);
   const port = configService.get('apiSettings.PORT', { infer: true })!;
 

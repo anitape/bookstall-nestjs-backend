@@ -13,39 +13,42 @@ export class Book extends BaseEntity {
   author: string;
 
   @Column()
-  ageRestriction: number; //возрастные ограничения на книгу
+  ageRestriction: number; //age restrictions on the book
 
   @Column({ nullable: true })
-  ownerId: number; //id пользователя, который добавил книгу
+  ownerId: number; //id of the user who added the book
 
   @Column({ nullable: true })
   image?: string;
 
   static createBook(dto: CreateBookDto, userId: number, userAge: number) {
+    // Enforce age restriction: throw if user is too young for the book's age restriction
     if(userAge < 18 && dto.ageRestriction >= 18) {
         throw new ForbiddenException('too young');
       }    
     
+      // Create and populate a new Book entity instance
       const book = new Book();
       book.title = dto.title;
       book.ageRestriction = dto.ageRestriction;
       book.author = dto.author;
-      book.ownerId = userId;
+      book.ownerId = userId; // Assign ownership to the user creating the book
 
       return book;
   }
 
   updateBook(dto: UpdateBookDto, userId: number) {
-    //logic
+
+    // Check if current user is the owner; deny update if not
     if (this.ownerId !== userId) {
       throw new ForbiddenException();
     }
-
+    // Update fields if provided in the DTO, else keep existing values
     this.title = dto.title ?? this.title;
     this.ageRestriction = dto.ageRestriction ?? this.ageRestriction;
     this.author = dto.author ?? this.author;
 
-    return this;
+    return this; // Return updated book entity for saving
 
   }
 }

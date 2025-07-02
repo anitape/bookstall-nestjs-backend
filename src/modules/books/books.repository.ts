@@ -22,7 +22,7 @@ export class BooksRepository {
     const result = await this.booksORMRepository.findOne({ where: { id } });
 
     if (!result) {
-      throw new NotFoundException('book not found'); //тут код прервется и выдаст ошибку, которую nestjs отправит в ответе
+      throw new NotFoundException('book not found');
     }
 
     return result;

@@ -11,8 +11,8 @@ import { LocalStrategy } from './local.strategy';
     UsersModule,
     PassportModule,
     JwtModule.register({
-      secret: 'secret_key', // секретный ключ (должен браться из env)
-      signOptions: { expiresIn: '60m' }, // Время жизни токена
+      secret: 'secret_key', // Secret key (should be loaded from env)
+      signOptions: { expiresIn: '60m' }, // Token expiration time
     }),
   ],
   controllers: [AuthController],
