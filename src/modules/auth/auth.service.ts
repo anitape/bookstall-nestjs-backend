@@ -1,12 +1,12 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { UsersRepository } from '../users/users.repository';
-import bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
+import { CryptoService } from './crypto.service';
 
 @Injectable()
 // AuthService handles user authentication and JWT token generation
 export class AuthService {
-    constructor(private userRepository: UsersRepository, private jwtService: JwtService) {
+    constructor(private userRepository: UsersRepository, private jwtService: JwtService, private CryptoService: CryptoService) {
 
     }
 
@@ -20,7 +20,7 @@ export class AuthService {
         }
 
         // Compare the provided password with the stored password hash using bcrypt
-        const isValid = await bcrypt.compare(password, user.passwordHash);
+        const isValid = await this.CryptoService.compare(password, user.passwordHash);
 
         // If password does not match, throw UnauthorizedException
         if (!isValid) {
