@@ -14,6 +14,7 @@ Bookstall is a backend application for managing an online book library. It provi
 | PostgreSQL      | Relational database                |
 | class-validator | Input validation decorators        |
 | Bcrypt          | Password hashing                   |
+| ThrottlerModule | Global rate limiting               |
 
 
 ## 🚀 Features
@@ -54,10 +55,16 @@ Bookstall is a backend application for managing an online book library. It provi
 - Modular structure (e.g., `auth`, `books`, `users` modules)
 - Clear separation of concerns between controllers, services, and repositories
 
+**Rate Limiting (Throttling)**
+
+- Global rate limiting is enforced using @nestjs/throttler
+- Helps protect the application from excessive requests and abuse
+- Configured to allow a maximum of 5 requests per 10 seconds per client
+
 
 ## ✅ Example Use Cases
 
-- Guests can browse books that not have age restriction 18+
+- Guests can browse books that don't have age restriction 18+
 - Logged-in users can add and manage their own books
 - Age-restricted books are only accessible by adults
 

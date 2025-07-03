@@ -45,11 +45,12 @@ import { APP_GUARD } from '@nestjs/core';
     UsersModule,
     BooksModule,
     AuthModule,
+    // Global rate-limiting configuration using ThrottlerModule
     ThrottlerModule.forRoot({
       throttlers: [
         {
-          ttl: 10000,
-          limit: 5,
+          ttl: 10000, // Time window in milliseconds (10 seconds)
+          limit: 5, // Max number of requests per window
         },
       ],
     }),
